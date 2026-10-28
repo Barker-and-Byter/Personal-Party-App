@@ -4,11 +4,24 @@ import { defineConfig } from 'vitest/config';
 import { playwright } from '@vitest/browser-playwright';
 import adapter from '@sveltejs/adapter-auto';
 import { sveltekit } from '@sveltejs/kit/vite';
+import { initializeSocket } from './src/lib/server/io.js';
+import type { Plugin } from 'vite';
+
+const webSocketPlugin: Plugin = {
+	name: 'web-socket-plugin',
+	configureServer(server) {
+		if (server.httpServer) {
+			initializeSocket(server.httpServer);
+			console.log('Websockets server succesfully attatched to vite development server');
+		}
+	}
+};
 
 export default defineConfig({
 	plugins: [
 		enhancedImages(),
 		tailwindcss(),
+		webSocketPlugin,
 		sveltekit({
 			compilerOptions: {
 				// Force runes mode for the project, except for libraries. Can be removed in svelte 6.

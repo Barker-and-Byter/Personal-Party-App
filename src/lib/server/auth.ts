@@ -8,14 +8,14 @@ import { db } from '#lib/server/db/index.ts';
 export const auth = betterAuth({
 	baseURL: ORIGIN,
 	secret: BETTER_AUTH_SECRET,
-	database: drizzleAdapter(db, { 
-		provider: 'sqlite',
-	 }),
-	 advanced: {
+	database: drizzleAdapter(db, {
+		provider: 'sqlite'
+	}),
+	advanced: {
 		database: {
-			validateSchema: false,
+			validateSchema: false
 		}
-	 },
+	},
 	emailAndPassword: { enabled: true },
 	plugins: [
 		sveltekitCookies(getRequestEvent) // make sure this is the last plugin in the array
